@@ -105,69 +105,41 @@ $(document).ready(function () {
                 }
             });
 
-            const taskInfo = $('<div class="task-info"></div>');
-            taskInfo.append(taskContent, startTimeSpan, deleteBtn, dueTimeSpan);
-
-            listItem.append(checkbox, taskInfo, upBtn, downBtn);
+            listItem.append(checkbox, taskContent, deleteBtn, startTimeSpan, dueTimeSpan, upBtn, downBtn);
             taskList.append(listItem);
         });
     }
 
-    function switchTab(newList) {
+    function switchList(newList) {
         currentList = newList;
+        $('#listTitle').val(lists[currentList].name);
+        $('.tab').removeClass('active');
+        $(`.tab:contains(${lists[currentList].name})`).addClass('active');
         renderList();
-    }
-
-    function updateTabNames() {
-        $('.tab').each(function (index) {
-            $(this).text(lists[`list${index + 1}`].name);
-        });
     }
 
     $('#addTaskBtn').on('click', addTask);
 
-    $('#taskInput').on('keypress', function (e) {
-        if (e.which === 13) {
-            addTask();
-        }
+    $('#listTitle').on('input', function () {
+        lists[currentList].name = $(this).val();
+        $(`.tab:contains(${lists[currentList].name})`).text($(this).val());
+        saveLists();
     });
 
     $('#toggleDarkMode').on('click', function () {
         $('body').toggleClass('dark-mode');
         const theme = $('body').hasClass('dark-mode') ? 'dark-mode' : '';
-        $(this).text(theme === 'dark-mode' ? '☀️' : '🌙');
         saveTheme(theme);
+        $(this).text(theme === 'dark-mode' ? '☀️' : '🌙');
     });
 
     $('.tab').on('click', function () {
-        $('.tab').removeClass('active');
-        $(this).addClass('active');
-        const listIndex = $(this).index() + 1;
-        switchTab(`list${listIndex}`);
+        const newList = `list${$(this).index() + 1}`;
+        switchList(newList);
     });
 
-    $('.tab').each(function (index) {
-        const listIndex = index + 1;
-        $(this).text(lists[`list${listIndex}`].name).on('dblclick', function () {
-            const newName = prompt('Enter new list name:', lists[`list${listIndex}`].name);
-            if (newName) {
-                lists[`list${listIndex}`].name = newName;
-                saveLists();
-                updateTabNames();
-            }
-        });
-    });
-
-    $('#listTitle').on('dblclick', function () {
-        const newName = prompt('Enter new list name:', lists[currentList].name);
-        if (newName) {
-            lists[currentList].name = newName;
-            saveLists();
-            updateTabNames();
-        }
-    });
-
-    loadTheme();
+    // Initialize
+    $('#listTitle').val(lists[currentList].name);
     renderList();
-    updateTabNames();
+    loadTheme();
 });
