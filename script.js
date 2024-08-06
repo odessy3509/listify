@@ -1,199 +1,151 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    transition: background-color 0.3s, color 0.3s;
-}
+$(document).ready(function () {
+    const localStorageKey = 'todoAppData';
+    const themeKey = 'theme';
+    let currentList = 'list1';
+    const maxLists = 5;
+    const defaultListNames = ['List 1', 'List 2', 'List 3', 'List 4', 'List 5'];
 
-body.dark-mode {
-    background-color: #333;
-    color: #fff;
-}
+    function loadLists() {
+        const savedData = localStorage.getItem(localStorageKey);
+        if (savedData) {
+            return JSON.parse(savedData);
+        }
+        let initialData = {};
+        for (let i = 1; i <= maxLists; i++) {
+            initialData[`list${i}`] = { name: defaultListNames[i - 1], tasks: [] };
+        }
+        return initialData;
+    }
 
-.container {
-    width: 100%;
-    max-width: 800px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s, color 0.3s;
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
-}
+    const lists = loadLists();
 
-body.dark-mode .container {
-    background: #444;
-    color: #fff;
-}
+    function saveLists() {
+        localStorage.setItem(localStorageKey, JSON.stringify(lists));
+    }
 
-#listTitle {
-    margin-bottom: 20px;
-    color: inherit;
-    text-align: left;
-    font-size: 24px;
-    width: calc(100% - 40px);
-    border: none;
-    background: none;
-    outline: none;
-}
+    function loadTheme() {
+        const theme = localStorage.getItem(themeKey);
+        if (theme) {
+            $('body').addClass(theme);
+            $('#toggleDarkMode').text(theme === 'dark-mode' ? '☀️' : '🌙');
+        }
+    }
 
-#toggleDarkMode {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 6px;
-    background-color: #333;
-    color: #fff;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    function saveTheme(theme) {
+        localStorage.setItem(themeKey, theme);
+    }
 
-body.dark-mode #toggleDarkMode {
-    background-color: #fff;
-    color: #333;
-}
+    function addTask() {
+        const taskInput = $('#taskInput');
+        const dueTimeInput = $('#dueTimeInput');
+        const taskText = taskInput.val().trim();
+        const dueTime = dueTimeInput.val();
 
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
+        if (taskText === '' || dueTime === '') return;
 
-.tab {
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    background-color: #f4f4f4;
-    margin-right: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #333; /* Default text color for light mode */
-}
+        lists[currentList].tasks.push({ task: taskText, dueTime });
+        renderList();
+        saveLists();
 
-body.dark-mode .tab {
-    background-color: #666;
-    color: #fff; /* Text color for dark mode */
-    border: 1px solid #555;
-}
+        taskInput.val('');
+        dueTimeInput.val('');
+    }
 
-.tab:hover,
-.tab.active {
-    background-color: #ddd;
-}
+    function renderList() {
+        const taskList = $('#taskList');
+        taskList.empty();
+        lists[currentList].tasks.forEach((item, index) => {
+            const listItem = $('<li></li>');
 
-body.dark-mode .tab:hover,
-body.dark-mode .tab.active {
-    background-color: #555;
-}
+            const checkbox = $('<input type="checkbox" class="task-checkbox">');
 
-.input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-}
+            const taskContent = $('<span class="task-content"></span>').text(item.task);
 
-input[type="text"],
-.timepicker-input {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 18px;
-    width: 100%;
-}
+            const dueTimeSpan = $('<span class="due-time"></span>').text(item.dueTime);
 
-body.dark-mode input[type="text"],
-body.dark-mode .timepicker-input {
-    background-color: #666;
-    color: #fff;
-    border: 1px solid #555;
-}
+            const deleteBtn = $('<button class="delete-btn">✖</button>');
+            deleteBtn.on('click', function () {
+                lists[currentList].tasks.splice(index, 1);
+                renderList();
+                saveLists();
+            });
 
-button {
-    padding: 15px;
-    border: none;
-    border-radius: 6px;
-    background-color: #28a745;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    width: 100%;
-}
+            const upBtn = $('<button class="move-btn">⬆️</button>');
+            upBtn.on('click', function () {
+                if (index > 0) {
+                    const temp = lists[currentList].tasks[index - 1];
+                    lists[currentList].tasks[index - 1] = lists[currentList].tasks[index];
+                    lists[currentList].tasks[index] = temp;
+                    renderList();
+                    saveLists();
+                }
+            });
 
-button:hover {
-    background-color: #218838;
-}
+            const downBtn = $('<button class="move-btn">⬇️</button>');
+            downBtn.on('click', function () {
+                if (index < lists[currentList].tasks.length - 1) {
+                    const temp = lists[currentList].tasks[index + 1];
+                    lists[currentList].tasks[index + 1] = lists[currentList].tasks[index];
+                    lists[currentList].tasks[index] = temp;
+                    renderList();
+                    saveLists();
+                }
+            });
 
-.task-list-container {
-    overflow-y: auto;
-    max-height: 50vh;
-}
+            const taskInfo = $('<div class="task-info"></div>');
+            taskInfo.append(taskContent, dueTimeSpan);
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+            listItem.append(checkbox, taskInfo, upBtn, downBtn);
+            taskList.append(listItem);
+        });
+    }
 
-li {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-    justify-content: space-between;
-}
+    function switchTab(newList) {
+        currentList = newList;
+        renderList();
+    }
 
-.task-info {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
+    function updateTabNames() {
+        $('.tab').each(function (index) {
+            $(this).text(lists[`list${index + 1}`].name);
+        });
+    }
 
-.task-content {
-    margin-right: 10px;
-    flex: 1;
-}
+    $('#addTaskBtn').on('click', addTask);
 
-.due-time,
-.start-time {
-    margin-left: 10px;
-    color: #888;
-}
+    $('#taskInput').on('keypress', function (e) {
+        if (e.which === 13) {
+            addTask();
+        }
+    });
 
-.delete-btn {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    width: 24px; /* Small square size */
-    height: 24px; /* Small square size */
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    $('#toggleDarkMode').on('click', function () {
+        $('body').toggleClass('dark-mode');
+        const theme = $('body').hasClass('dark-mode') ? 'dark-mode' : '';
+        $(this).text(theme === 'dark-mode' ? '☀️' : '🌙');
+        saveTheme(theme);
+    });
 
-.delete-btn:hover {
-    background-color: #c82333;
-}
+    $('.tab').on('click', function () {
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+        const listIndex = $(this).index() + 1;
+        switchTab(`list${listIndex}`);
+    });
 
-input[type="checkbox"] {
-    margin-right: 15px;
-    width: 24px; /* Bigger checkbox size */
-    height: 24px; /* Bigger checkbox size */
+    $('.tab').each(function (index) {
+        const listIndex = index + 1;
+        $(this).text(lists[`list${listIndex}`].name).on('dblclick', function () {
+            const newName = prompt('Enter new list name:', lists[`list${listIndex}`].name);
+            if (newName) {
+                lists[`list${listIndex}`].name = newName;
+                saveLists();
+                updateTabNames();
+            }
+        });
+    });
+
+    loadTheme();
+    renderList();
+    updateTabNames();
+});
