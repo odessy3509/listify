@@ -195,3 +195,33 @@ body.dark-mode .due-time {
     max-height: 400px; /* Match dropdown height */
     overflow-y: auto;
 }
+
+.widget {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 200px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.widget-header {
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.widget-content {
+    padding: 10px;
+}
+
+.widget-task {
+    margin: 5px 0;
+}
+
