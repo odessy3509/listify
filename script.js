@@ -14,7 +14,7 @@ $(document).ready(function () {
         // Initialize default data if none exists
         let initialData = {};
         for (let i = 1; i <= maxLists; i++) {
-            initialData[list${i}] = { name: defaultListNames[i - 1], tasks: [] };
+            initialData[`list${i}`] = { name: defaultListNames[i - 1], tasks: [] };
         }
         return initialData;
     }
@@ -73,7 +73,7 @@ $(document).ready(function () {
     function initializeTabs() {
         $('.tabs').empty();
         Object.keys(lists).forEach(listKey => {
-            const button = $(<button class="tab" data-list="${listKey}">${lists[listKey].name}</button>);
+            const button = $(`<button class="tab" data-list="${listKey}">${lists[listKey].name}</button>`);
             button.on('click', function () {
                 currentList = $(this).data('list');
                 renderList();
@@ -118,7 +118,7 @@ $(document).ready(function () {
     $('#listTitle').on('input', function () {
         const title = $(this).val().substring(0, 20);
         lists[currentList].name = title;
-        $(.tab[data-list="${currentList}"]).text(title);
+        $(`.tab[data-list="${currentList}"]`).text(title);
         saveLists();
     });
 
