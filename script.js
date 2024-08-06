@@ -53,10 +53,16 @@ $(document).ready(function () {
         dueTimeInput.val('');
     }
 
+    function deleteTask(index) {
+        lists[currentList].tasks.splice(index, 1);
+        renderList();
+        saveLists();
+    }
+
     function renderList() {
         const taskList = $('#taskList');
         taskList.empty();
-        lists[currentList].tasks.forEach(item => {
+        lists[currentList].tasks.forEach((item, index) => {
             const listItem = $('<li></li>');
 
             const checkbox = $('<input type="checkbox" class="task-checkbox">');
@@ -65,7 +71,11 @@ $(document).ready(function () {
 
             const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
 
-            listItem.append(checkbox, taskContent, dueTimeSpan);
+            const deleteButton = $('<button class="delete-btn">❌</button>').on('click', function() {
+                deleteTask(index);
+            });
+
+            listItem.append(checkbox, taskContent, dueTimeSpan, deleteButton);
             taskList.append(listItem);
         });
     }
