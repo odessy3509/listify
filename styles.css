@@ -150,12 +150,12 @@ input[type="text"] {
 /* Delete button styling */
 .delete-btn {
     margin-left: 10px;
-    padding: 2px 6px; /* Smaller padding */
+    padding: 4px 8px; /* Smaller padding */
     border: none;
     background: #e74c3c;
     color: #fff;
     cursor: pointer;
-    font-size: 12px; /* Smaller font size */
+    font-size: 14px; /* Smaller font size */
     border-radius: 3px; /* Slightly rounded corners */
     line-height: 1; /* Ensures the button height adjusts to content */
 }
@@ -171,6 +171,4 @@ input[type="text"] {
 }
 
 .ui-timepicker-time-list {
-    max-height: 300px;
-    overflow-y: auto;
-}
+    m
