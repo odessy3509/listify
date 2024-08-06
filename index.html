@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
+    <title>To-Do List Application</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 <body>
     <div class="container">
-        <button id="toggleDarkMode" aria-label="Toggle Dark Mode">🌙</button>
-        <input type="text" id="listTitle" placeholder="Enter list title" value="List 1" maxlength="20">
+        <input type="text" id="listTitle" placeholder="List Title">
+        <button id="toggleDarkMode">🌙</button>
         <div class="tabs">
-            <button class="tab" data-list="list1">List 1</button>
-            <button class="tab" data-list="list2">List 2</button>
-            <button class="tab" data-list="list3">List 3</button>
-            <button class="tab" data-list="list4">List 4</button>
-            <button class="tab" data-list="list5">List 5</button>
+            <div class="tab active">List 1</div>
+            <div class="tab">List 2</div>
+            <div class="tab">List 3</div>
+            <div class="tab">List 4</div>
+            <div class="tab">List 5</div>
         </div>
         <div class="input-container">
-            <input type="text" id="taskInput" placeholder="Enter a new task">
-            <input type="text" id="dueTimeInput" placeholder="Select due time">
+            <input type="text" id="taskInput" placeholder="Add a task...">
+            <input type="datetime-local" id="startTimeInput" placeholder="Start time">
+            <input type="datetime-local" id="dueTimeInput" placeholder="Due time">
             <button id="addTaskBtn">Add Task</button>
         </div>
         <div class="task-list-container">
             <ul id="taskList"></ul>
         </div>
     </div>
-
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Timepicker.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
