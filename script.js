@@ -83,10 +83,11 @@ $(document).ready(function () {
             }
         });
 
-        listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
+        listItem.append(checkbox, taskContent, deleteBtn, dueTimeSpan);
         taskList.append(listItem);
     });
 }
+
 
     
 
