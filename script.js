@@ -1,10 +1,9 @@
 $(document).ready(function () {
     const localStorageKey = 'todoAppData';
     const themeKey = 'theme';
-    let currentList = 'list1';
     const maxLists = 5;
-    const defaultListNames = ['List 1', 'List 2', 'List 3', 'List 4', 'List 5'];
-
+    let currentList = 'list1';
+    
     function loadLists() {
         const savedData = localStorage.getItem(localStorageKey);
         if (savedData) {
@@ -12,7 +11,7 @@ $(document).ready(function () {
         }
         let initialData = {};
         for (let i = 1; i <= maxLists; i++) {
-            initialData[`list${i}`] = { name: defaultListNames[i - 1], tasks: [] };
+            initialData[`list${i}`] = { name: `List ${i}`, tasks: [] };
         }
         return initialData;
     }
@@ -85,7 +84,7 @@ $(document).ready(function () {
                 saveLists();
             });
 
-            const upBtn = $('<button class="move-btn">▲</button>');
+            const upBtn = $('<button class="move-btn">↑</button>');
             upBtn.on('click', function () {
                 if (index > 0) {
                     const temp = lists[currentList].tasks[index - 1];
@@ -96,7 +95,7 @@ $(document).ready(function () {
                 }
             });
 
-            const downBtn = $('<button class="move-btn">▼</button>');
+            const downBtn = $('<button class="move-btn">↓</button>');
             downBtn.on('click', function () {
                 if (index < lists[currentList].tasks.length - 1) {
                     const temp = lists[currentList].tasks[index + 1];
@@ -126,6 +125,19 @@ $(document).ready(function () {
         });
     }
 
+    function setupTabs() {
+        $('.tabs').empty();
+        for (let i = 1; i <= maxLists; i++) {
+            const tab = $(`<button class="tab" data-list="list${i}">${lists[`list${i}`].name}</button>`);
+            tab.on('click', function () {
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+                switchTab($(this).data('list'));
+            });
+            $('.tabs').append(tab);
+        }
+    }
+
     $('#addTaskBtn').on('click', addTask);
 
     $('#taskInput').on('keypress', function (e) {
@@ -141,32 +153,21 @@ $(document).ready(function () {
         saveTheme(theme);
     });
 
-    $('.tab').on('click', function () {
-        $('.tab').removeClass('active');
-        $(this).addClass('active');
-        const listIndex = $(this).index() + 1;
-        switchTab(`list${listIndex}`);
+    $('#listTitle').on('change', function () {
+        const newTitle = $(this).val().trim();
+        if (newTitle) {
+            lists[currentList].name = newTitle;
+            saveLists();
+            updateTabNames();
+        }
     });
 
-    $('.tab').each(function (index) {
-        const listIndex = index + 1;
-        $(this).text(lists[`list${listIndex}`].name).on('dblclick', function () {
-            const newName = prompt('Enter new list name:', lists[`list${listIndex}`].name);
-            if (newName) {
-                lists[`list${listIndex}`].name = newName;
-                saveLists();
-                updateTabNames();
-            }
-        });
-    });
-
-    // Initialize date picker and time picker dropdown
+    generateTimeOptions();
     $('#dueDateInput').datepicker({
         dateFormat: 'yy-mm-dd'
     });
-    generateTimeOptions();
 
+    setupTabs();
     loadTheme();
     renderList();
-    updateTabNames();
 });
