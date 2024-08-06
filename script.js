@@ -4,7 +4,6 @@ $(document).ready(function () {
     let currentList = 'list1';
     const maxLists = 5;
     const defaultListNames = ['List 1', 'List 2', 'List 3', 'List 4', 'List 5'];
-    let undoStack = [];
 
     // Load data from localStorage
     function loadLists() {
@@ -46,9 +45,7 @@ $(document).ready(function () {
 
         if (taskText === '' || dueTime === '') return;
 
-        const newTask = { task: taskText, time: dueTime };
-        undoStack.push({ action: 'add', task: newTask });
-        lists[currentList].tasks.push(newTask);
+        lists[currentList].tasks.push({ task: taskText, time: dueTime });
         renderList();
         saveLists();
 
@@ -57,21 +54,7 @@ $(document).ready(function () {
     }
 
     function deleteTask(index) {
-        const deletedTask = lists[currentList].tasks.splice(index, 1)[0];
-        undoStack.push({ action: 'delete', task: deletedTask, index });
-        renderList();
-        saveLists();
-    }
-
-    function undoLastAction() {
-        if (undoStack.length === 0) return;
-
-        const lastAction = undoStack.pop();
-        if (lastAction.action === 'add') {
-            lists[currentList].tasks.pop();
-        } else if (lastAction.action === 'delete') {
-            lists[currentList].tasks.splice(lastAction.index, 0, lastAction.task);
-        }
+        lists[currentList].tasks.splice(index, 1);
         renderList();
         saveLists();
     }
@@ -96,7 +79,6 @@ $(document).ready(function () {
             listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
             taskList.append(listItem);
         });
-        initializeSortable();
     }
 
     function initializeTabs() {
@@ -158,32 +140,4 @@ $(document).ready(function () {
 
     // Load theme on page load
     loadTheme();
-
-    // Initialize sortable
-    function initializeSortable() {
-        const taskList = document.getElementById('taskList');
-        new Sortable(taskList, {
-            animation: 150,
-            onEnd: function (evt) {
-                const movedTask = lists[currentList].tasks.splice(evt.oldIndex, 1)[0];
-                lists[currentList].tasks.splice(evt.newIndex, 0, movedTask);
-                saveLists();
-            }
-        });
-    }
-
-    // Auto scale tab button text
-    function updateTabButtonText() {
-        $('.tab').each(function () {
-            let $this = $(this);
-            while ($this[0].scrollWidth > $this[0].clientWidth) {
-                let fontSize = parseFloat($this.css('font-size'));
-                if (fontSize <= 12) break; // Minimum font size
-                $this.css('font-size', (fontSize - 1) + 'px');
-            }
-        });
-    }
-
-    // Call update function on load
-    updateTabButtonText();
 });
