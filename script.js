@@ -65,8 +65,8 @@ $(document).ready(function () {
 
             const taskContent = $('<span class="task-content"></span>').text(item.task);
 
-            const startTimeSpan = $('<span class="start-time"></span>').text(item.startTime);
-            const dueTimeSpan = $('<span class="due-time"></span>').text(item.dueTime);
+            const startTimeSpan = $('<span class="start-time"></span>').text(item.startTime ? new Date(item.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '');
+            const dueTimeSpan = $('<span class="due-time"></span>').text(new Date(item.dueTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             
             // Due date indication
             const dueTime = new Date(item.dueTime);
@@ -156,6 +156,15 @@ $(document).ready(function () {
                 updateTabNames();
             }
         });
+    });
+
+    $('#listTitle').on('dblclick', function () {
+        const newName = prompt('Enter new list name:', lists[currentList].name);
+        if (newName) {
+            lists[currentList].name = newName;
+            saveLists();
+            updateTabNames();
+        }
     });
 
     loadTheme();
