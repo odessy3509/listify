@@ -224,3 +224,20 @@ button.move-btn:hover {
     flex: 1;
     justify-content: space-between;
 }
+
+/* Additional styling */
+.due-date {
+    margin-left: 10px;
+    color: #888;
+}
+
+input#dueDateInput {
+    width: 100%;
+}
+
+body.dark-mode input#dueDateInput {
+    background-color: #666;
+    color: #fff;
+    border: 1px solid #555;
+}
+
