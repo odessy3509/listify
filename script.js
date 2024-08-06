@@ -4,6 +4,7 @@ $(document).ready(function () {
     let currentList = 'list1';
     const maxLists = 5;
     const defaultListNames = ['List 1', 'List 2', 'List 3', 'List 4', 'List 5'];
+    let undoStack = [];
 
     // Load data from localStorage
     function loadLists() {
@@ -45,7 +46,9 @@ $(document).ready(function () {
 
         if (taskText === '' || dueTime === '') return;
 
-        lists[currentList].tasks.push({ task: taskText, time: dueTime });
+        const newTask = { task: taskText, time: dueTime };
+        undoStack.push({ action: 'add', task: newTask });
+        lists[currentList].tasks.push(newTask);
         renderList();
         saveLists();
 
@@ -53,10 +56,30 @@ $(document).ready(function () {
         dueTimeInput.val('');
     }
 
+    function deleteTask(index) {
+        const deletedTask = lists[currentList].tasks.splice(index, 1)[0];
+        undoStack.push({ action: 'delete', task: deletedTask, index });
+        renderList();
+        saveLists();
+    }
+
+    function undoLastAction() {
+        if (undoStack.length === 0) return;
+
+        const lastAction = undoStack.pop();
+        if (lastAction.action === 'add') {
+            lists[currentList].tasks.pop();
+        } else if (lastAction.action === 'delete') {
+            lists[currentList].tasks.splice(lastAction.index, 0, lastAction.task);
+        }
+        renderList();
+        saveLists();
+    }
+
     function renderList() {
         const taskList = $('#taskList');
         taskList.empty();
-        lists[currentList].tasks.forEach(item => {
+        lists[currentList].tasks.forEach((item, index) => {
             const listItem = $('<li></li>');
 
             const checkbox = $('<input type="checkbox" class="task-checkbox">');
@@ -65,9 +88,15 @@ $(document).ready(function () {
 
             const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
 
-            listItem.append(checkbox, taskContent, dueTimeSpan);
+            const deleteBtn = $('<button class="delete-btn">❌</button>');
+            deleteBtn.on('click', function () {
+                deleteTask(index);
+            });
+
+            listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
             taskList.append(listItem);
         });
+        initializeSortable();
     }
 
     function initializeTabs() {
@@ -129,6 +158,19 @@ $(document).ready(function () {
 
     // Load theme on page load
     loadTheme();
+
+    // Initialize sortable
+    function initializeSortable() {
+        const taskList = document.getElementById('taskList');
+        new Sortable(taskList, {
+            animation: 150,
+            onEnd: function (evt) {
+                const movedTask = lists[currentList].tasks.splice(evt.oldIndex, 1)[0];
+                lists[currentList].tasks.splice(evt.newIndex, 0, movedTask);
+                saveLists();
+            }
+        });
+    }
 
     // Auto scale tab button text
     function updateTabButtonText() {
