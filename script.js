@@ -147,7 +147,8 @@ $(document).ready(function () {
 
     // Initialize date and time picker
     $('#dueDateInput').datetimepicker({
-        format: 'yy-mm-dd HH:mm',
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'HH:mm',
         stepHour: 1,
         stepMinute: 5
     });
