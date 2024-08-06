@@ -235,10 +235,26 @@ input#dueDateInput {
     width: 100%;
 }
 
-body.dark-mode input#dueDateInput {
+select#timePicker {
+    width: 100%;
+}
+
+body.dark-mode input#dueDateInput,
+body.dark-mode select#timePicker {
     background-color: #666;
     color: #fff;
     border: 1px solid #555;
 }
+
+button.move-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    cursor
+
 
 
