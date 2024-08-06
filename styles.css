@@ -90,12 +90,16 @@ body.dark-mode {
 
 .delete-btn {
     margin-left: 10px;
-    padding: 2px 5px;
+    padding: 2px 5px; /* Smaller padding */
     border: none;
     background: #e74c3c;
     color: #fff;
     cursor: pointer;
+    font-size: 12px; /* Smaller font size */
+    border-radius: 3px; /* Slightly rounded corners */
+    line-height: 1; /* Ensures the button height adjusts to content */
 }
 
 .delete-btn:hover {
-    background: #c0392b
+    background: #c0392b;
+}
