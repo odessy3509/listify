@@ -37,21 +37,18 @@ $(document).ready(function () {
 
     function addTask() {
         const taskInput = $('#taskInput');
-        const startTimeInput = $('#startTimeInput');
-        const dueTimeInput = $('#dueTimeInput');
+        const dueDateInput = $('#dueDateInput');
         const taskText = taskInput.val().trim();
-        const startTime = startTimeInput.val();
-        const dueTime = dueTimeInput.val();
+        const dueDate = dueDateInput.val();
 
-        if (taskText === '' || dueTime === '') return;
+        if (taskText === '' || dueDate === '') return;
 
-        lists[currentList].tasks.push({ task: taskText, startTime, dueTime });
+        lists[currentList].tasks.push({ task: taskText, dueDate });
         renderList();
         saveLists();
 
         taskInput.val('');
-        startTimeInput.val('');
-        dueTimeInput.val('');
+        dueDateInput.val('');
     }
 
     function renderList() {
@@ -64,8 +61,7 @@ $(document).ready(function () {
 
             const taskContent = $('<span class="task-content"></span>').text(item.task);
 
-            const startTimeSpan = $('<span class="start-time"></span>').text(item.startTime);
-            const dueTimeSpan = $('<span class="due-time"></span>').text(item.dueTime);
+            const dueDateSpan = $('<span class="due-date"></span>').text(item.dueDate);
 
             const deleteBtn = $('<button class="delete-btn">✖</button>');
             deleteBtn.on('click', function () {
@@ -97,7 +93,7 @@ $(document).ready(function () {
             });
 
             const taskInfo = $('<div class="task-info"></div>');
-            taskInfo.append(taskContent, startTimeSpan, deleteBtn, dueTimeSpan);
+            taskInfo.append(taskContent, dueDateSpan, deleteBtn);
 
             listItem.append(checkbox, taskInfo, upBtn, downBtn);
             taskList.append(listItem);
@@ -147,6 +143,13 @@ $(document).ready(function () {
                 updateTabNames();
             }
         });
+    });
+
+    // Initialize date and time picker
+    $('#dueDateInput').datetimepicker({
+        format: 'yy-mm-dd HH:mm',
+        stepHour: 1,
+        stepMinute: 5
     });
 
     loadTheme();
