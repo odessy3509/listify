@@ -56,7 +56,7 @@ $(document).ready(function () {
     function renderList() {
         const taskList = $('#taskList');
         taskList.empty();
-        lists[currentList].tasks.forEach(item => {
+        lists[currentList].tasks.forEach((item, index) => {
             const listItem = $('<li></li>');
 
             const checkbox = $('<input type="checkbox" class="task-checkbox">');
@@ -65,14 +65,13 @@ $(document).ready(function () {
 
             const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
 
-            const deleteButton = $('<button class="delete-btn">X</button>').on('click', function () {
-                const index = $(this).parent().index();
+            const deleteBtn = $('<button class="delete-btn">Delete</button>').on('click', function() {
                 lists[currentList].tasks.splice(index, 1);
                 renderList();
                 saveLists();
             });
 
-            listItem.append(checkbox, taskContent, dueTimeSpan, deleteButton);
+            listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
             taskList.append(listItem);
         });
     }
