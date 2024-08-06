@@ -24,6 +24,7 @@ input[type="text"] {
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-right: 10px;
+    width: 250px;
 }
 
 button {
@@ -45,7 +46,7 @@ button:hover {
     background: none;
     border: none;
     color: red;
-    font-size: 0.9em; /* Slightly smaller delete button */
+    font-size: 1em; /* Same size as before */
     cursor: pointer;
     margin-left: 10px;
 }
@@ -92,8 +93,7 @@ button:hover {
 }
 
 #dueTimeInput {
-    width: auto;
-    display: inline-block;
+    width: 200px; /* Adjusted to match previous style */
 }
 
 #listTitle {
