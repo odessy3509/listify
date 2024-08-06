@@ -45,7 +45,7 @@ button:hover {
     background: none;
     border: none;
     color: red;
-    font-size: 0.7em; /* Smaller delete button */
+    font-size: 0.9em; /* Slightly smaller delete button */
     cursor: pointer;
     margin-left: 10px;
 }
@@ -99,4 +99,17 @@ button:hover {
 #listTitle {
     width: 100%;
     box-sizing: border-box;
+}
+
+#toggleDarkMode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
 }
