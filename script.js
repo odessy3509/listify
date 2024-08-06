@@ -58,8 +58,7 @@ $(document).ready(function () {
         renderList();
         saveLists();
     }
-
-  function renderList() {
+function renderList() {
     const taskList = $('#taskList');
     taskList.empty();
     lists[currentList].tasks.forEach(item => {
@@ -83,10 +82,14 @@ $(document).ready(function () {
             }
         });
 
-        listItem.append(checkbox, taskContent, deleteBtn, dueTimeSpan);
+        const taskInfo = $('<div class="task-info"></div>');
+        taskInfo.append(taskContent, deleteBtn, dueTimeSpan);
+
+        listItem.append(checkbox, taskInfo);
         taskList.append(listItem);
     });
 }
+
 
 
     
