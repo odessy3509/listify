@@ -155,12 +155,18 @@ li {
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
-    position: relative; /* Added to position the delete button */
+    justify-content: space-between;
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
 
 .task-content {
-    flex: 1;
     margin-right: 10px;
+    flex: 1;
 }
 
 .due-time {
@@ -177,7 +183,6 @@ li {
     height: 24px; /* Small square size */
     font-size: 14px;
     cursor: pointer;
-    margin-right: 10px; /* Space between delete button and due time */
     display: flex;
     align-items: center;
     justify-content: center;
