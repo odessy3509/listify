@@ -224,30 +224,3 @@ button.move-btn:hover {
     flex: 1;
     justify-content: space-between;
 }
-
-/* Additional styling */
-.due-date {
-    margin-left: 10px;
-    color: #888;
-}
-
-input#dueDateInput {
-    width: 100%;
-}
-
-select#timePicker {
-    width: 100%;
-}
-
-
-button.delete-btn {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-
-
-
