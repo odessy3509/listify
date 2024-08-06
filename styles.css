@@ -169,8 +169,7 @@ li {
     flex: 1;
 }
 
-.due-time,
-.start-time {
+.due-time {
     margin-left: 10px;
     color: #888;
 }
@@ -191,36 +190,4 @@ li {
 
 .delete-btn:hover {
     background-color: #c82333;
-}
-
-input[type="checkbox"] {
-    margin-right: 15px;
-    width: 24px; /* Bigger checkbox size */
-    height: 24px; /* Bigger checkbox size */
-}
-
-button.move-btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-}
-
-button.move-btn:hover {
-    background-color: #0056b3;
-}
-
-.task-info {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    justify-content: space-between;
 }
