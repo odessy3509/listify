@@ -35,20 +35,35 @@ $(document).ready(function () {
         localStorage.setItem(themeKey, theme);
     }
 
+    function generateTimeOptions() {
+        const timePicker = $('#timePicker');
+        for (let hour = 0; hour < 24; hour++) {
+            for (let minute = 0; minute < 60; minute += 15) {
+                const formattedHour = hour < 10 ? `0${hour}` : hour;
+                const formattedMinute = minute < 10 ? `0${minute}` : minute;
+                const timeString = `${formattedHour}:${formattedMinute}`;
+                timePicker.append(`<option value="${timeString}">${timeString}</option>`);
+            }
+        }
+    }
+
     function addTask() {
         const taskInput = $('#taskInput');
         const dueDateInput = $('#dueDateInput');
+        const timePicker = $('#timePicker');
         const taskText = taskInput.val().trim();
         const dueDate = dueDateInput.val();
+        const dueTime = timePicker.val();
 
-        if (taskText === '' || dueDate === '') return;
+        if (taskText === '' || dueDate === '' || dueTime === '') return;
 
-        lists[currentList].tasks.push({ task: taskText, dueDate });
+        lists[currentList].tasks.push({ task: taskText, dueDate: `${dueDate} ${dueTime}` });
         renderList();
         saveLists();
 
         taskInput.val('');
         dueDateInput.val('');
+        timePicker.val('');
     }
 
     function renderList() {
@@ -70,7 +85,7 @@ $(document).ready(function () {
                 saveLists();
             });
 
-            const upBtn = $('<button class="move-btn">⬆️</button>');
+            const upBtn = $('<button class="move-btn">▲</button>');
             upBtn.on('click', function () {
                 if (index > 0) {
                     const temp = lists[currentList].tasks[index - 1];
@@ -81,7 +96,7 @@ $(document).ready(function () {
                 }
             });
 
-            const downBtn = $('<button class="move-btn">⬇️</button>');
+            const downBtn = $('<button class="move-btn">▼</button>');
             downBtn.on('click', function () {
                 if (index < lists[currentList].tasks.length - 1) {
                     const temp = lists[currentList].tasks[index + 1];
@@ -145,13 +160,11 @@ $(document).ready(function () {
         });
     });
 
-    // Initialize date and time picker
-    $('#dueDateInput').datetimepicker({
-        dateFormat: 'yy-mm-dd',
-        timeFormat: 'HH:mm',
-        stepHour: 1,
-        stepMinute: 5
+    // Initialize date picker and time picker dropdown
+    $('#dueDateInput').datepicker({
+        dateFormat: 'yy-mm-dd'
     });
+    generateTimeOptions();
 
     loadTheme();
     renderList();
