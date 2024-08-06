@@ -177,10 +177,7 @@ li {
     height: 24px; /* Small square size */
     font-size: 14px;
     cursor: pointer;
-    position: absolute;
-    right: 10px; /* Align to the right */
-    top: 50%;
-    transform: translateY(-50%); /* Center vertically */
+    margin-right: 10px; /* Space between delete button and due time */
     display: flex;
     align-items: center;
     justify-content: center;
