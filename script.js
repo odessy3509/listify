@@ -14,7 +14,7 @@ $(document).ready(function () {
         // Initialize default data if none exists
         let initialData = {};
         for (let i = 1; i <= maxLists; i++) {
-            initialData[`list${i}`] = { name: defaultListNames[i - 1], tasks: [] };
+            initialData[list${i}] = { name: defaultListNames[i - 1], tasks: [] };
         }
         return initialData;
     }
@@ -53,16 +53,10 @@ $(document).ready(function () {
         dueTimeInput.val('');
     }
 
-    function deleteTask(index) {
-        lists[currentList].tasks.splice(index, 1);
-        renderList();
-        saveLists();
-    }
-
     function renderList() {
         const taskList = $('#taskList');
         taskList.empty();
-        lists[currentList].tasks.forEach((item, index) => {
+        lists[currentList].tasks.forEach(item => {
             const listItem = $('<li></li>');
 
             const checkbox = $('<input type="checkbox" class="task-checkbox">');
@@ -71,12 +65,7 @@ $(document).ready(function () {
 
             const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
 
-            const deleteBtn = $('<button class="delete-btn">❌</button>');
-            deleteBtn.on('click', function () {
-                deleteTask(index);
-            });
-
-            listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
+            listItem.append(checkbox, taskContent, dueTimeSpan);
             taskList.append(listItem);
         });
     }
@@ -84,7 +73,7 @@ $(document).ready(function () {
     function initializeTabs() {
         $('.tabs').empty();
         Object.keys(lists).forEach(listKey => {
-            const button = $(`<button class="tab" data-list="${listKey}">${lists[listKey].name}</button>`);
+            const button = $(<button class="tab" data-list="${listKey}">${lists[listKey].name}</button>);
             button.on('click', function () {
                 currentList = $(this).data('list');
                 renderList();
@@ -129,7 +118,7 @@ $(document).ready(function () {
     $('#listTitle').on('input', function () {
         const title = $(this).val().substring(0, 20);
         lists[currentList].name = title;
-        $(`.tab[data-list="${currentList}"]`).text(title);
+        $(.tab[data-list="${currentList}"]).text(title);
         saveLists();
     });
 
@@ -140,4 +129,19 @@ $(document).ready(function () {
 
     // Load theme on page load
     loadTheme();
+
+    // Auto scale tab button text
+    function updateTabButtonText() {
+        $('.tab').each(function () {
+            let $this = $(this);
+            while ($this[0].scrollWidth > $this[0].clientWidth) {
+                let fontSize = parseFloat($this.css('font-size'));
+                if (fontSize <= 12) break; // Minimum font size
+                $this.css('font-size', (fontSize - 1) + 'px');
+            }
+        });
+    }
+
+    // Call update function on load
+    updateTabButtonText();
 });
