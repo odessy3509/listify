@@ -59,26 +59,36 @@ $(document).ready(function () {
         saveLists();
     }
 
-    function renderList() {
-        const taskList = $('#taskList');
-        taskList.empty();
-        lists[currentList].tasks.forEach((item, index) => {
-            const listItem = $('<li></li>');
+  function renderList() {
+    const taskList = $('#taskList');
+    taskList.empty();
+    lists[currentList].tasks.forEach(item => {
+        const listItem = $('<li></li>');
 
-            const checkbox = $('<input type="checkbox" class="task-checkbox">');
+        const checkbox = $('<input type="checkbox" class="task-checkbox">');
 
-            const taskContent = $('<span class="task-content"></span>').text(item.task);
+        const taskContent = $('<span class="task-content"></span>').text(item.task);
 
-            const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
+        const dueTimeSpan = $('<span class="due-time"></span>').text(item.time);
 
-            const deleteButton = $('<button class="delete-btn">❌</button>').on('click', function() {
-                deleteTask(index);
-            });
-
-            listItem.append(checkbox, taskContent, dueTimeSpan, deleteButton);
-            taskList.append(listItem);
+        // Create the delete button
+        const deleteBtn = $('<button class="delete-btn">✖</button>');
+        deleteBtn.on('click', function() {
+            // Remove task from the list
+            const index = lists[currentList].tasks.indexOf(item);
+            if (index > -1) {
+                lists[currentList].tasks.splice(index, 1);
+                renderList();
+                saveLists();
+            }
         });
-    }
+
+        listItem.append(checkbox, taskContent, dueTimeSpan, deleteBtn);
+        taskList.append(listItem);
+    });
+}
+
+    
 
     function initializeTabs() {
         $('.tabs').empty();
