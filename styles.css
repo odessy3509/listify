@@ -82,12 +82,12 @@ body.dark-mode #toggleDarkMode {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #333;
+    color: #333; /* Default text color for light mode */
 }
 
 body.dark-mode .tab {
     background-color: #666;
-    color: #fff;
+    color: #fff; /* Text color for dark mode */
     border: 1px solid #555;
 }
 
@@ -153,92 +153,41 @@ ul {
 li {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 10px 0;
     border-bottom: 1px solid #ddd;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
+    justify-content: space-between;
 }
 
-li:last-child {
-    border-bottom: none;
-}
-
-input[type="checkbox"] {
-    margin-right: 15px;
-    width: 30px;
-    height: 30px;
+.task-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
 
 .task-content {
+    margin-right: 10px;
     flex: 1;
-    font-size: 18px;
 }
 
-.due-time,
-.start-time {
-    font-size: 16px;
-    margin-left: 15px;
-}
-
-body.dark-mode .due-time,
-body.dark-mode .start-time {
-    color: #ccc;
+.due-time {
+    margin-left: 10px;
+    color: #888;
 }
 
 .delete-btn {
-    width: 24px;
-    height: 24px;
     background-color: #dc3545;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    width: 24px; /* Small square size */
+    height: 24px; /* Small square size */
+    font-size: 14px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-    position: absolute;
-    left: 10px;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
-}
-
-.up-down-btn {
-    width: 24px;
-    height: 24px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.up-down-btn:hover {
-    background-color: #0056b3;
-}
-
-.up-btn {
-    background: url('up-arrow.svg') no-repeat center;
-}
-
-.down-btn {
-    background: url('down-arrow.svg') no-repeat center;
-}
-
-/* Timepicker dropdown styles */
-.ui-timepicker-wrapper {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.ui-timepicker-wrapper .ui-timepicker-list {
-    max-height: 400px;
-    overflow-y: auto;
 }
