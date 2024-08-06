@@ -195,3 +195,12 @@ body.dark-mode .due-time {
     max-height: 400px; /* Match dropdown height */
     overflow-y: auto;
 }
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 10px;
+}
