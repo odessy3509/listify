@@ -57,6 +57,7 @@ $(document).ready(function () {
     function renderList() {
         const taskList = $('#taskList');
         taskList.empty();
+        const now = new Date();
         lists[currentList].tasks.forEach((item, index) => {
             const listItem = $('<li></li>');
 
@@ -66,6 +67,14 @@ $(document).ready(function () {
 
             const startTimeSpan = $('<span class="start-time"></span>').text(item.startTime);
             const dueTimeSpan = $('<span class="due-time"></span>').text(item.dueTime);
+            
+            // Due date indication
+            const dueTime = new Date(item.dueTime);
+            if (dueTime < now) {
+                dueTimeSpan.addClass('past-due');
+            } else if ((dueTime - now) < 24 * 60 * 60 * 1000) { // within 24 hours
+                dueTimeSpan.addClass('due-soon');
+            }
 
             const deleteBtn = $('<button class="delete-btn">✖</button>');
             deleteBtn.on('click', function () {
