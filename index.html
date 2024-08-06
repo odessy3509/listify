@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 <body>
     <div class="container">
         <button id="toggleDarkMode" aria-label="Toggle Dark Mode">🌙</button>
         <input type="text" id="listTitle" placeholder="Enter list title" value="List 1" maxlength="20">
         <div class="tabs">
-            <!-- Tabs will be updated dynamically -->
+            <button class="tab" data-list="list1">List 1</button>
+            <button class="tab" data-list="list2">List 2</button>
+            <button class="tab" data-list="list3">List 3</button>
+            <button class="tab" data-list="list4">List 4</button>
+            <button class="tab" data-list="list5">List 5</button>
         </div>
         <div class="input-container">
             <input type="text" id="taskInput" placeholder="Enter a new task">
-            <input type="text" id="dueDateInput" placeholder="Select due date">
-            <select id="timePicker">
-                <!-- Options will be dynamically added -->
-            </select>
+            <input type="text" id="dueTimeInput" placeholder="Select due time">
             <button id="addTaskBtn">Add Task</button>
         </div>
         <div class="task-list-container">
@@ -30,8 +30,8 @@
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- jQuery UI -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Timepicker.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
