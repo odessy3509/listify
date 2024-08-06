@@ -12,16 +12,13 @@
         <button id="toggleDarkMode" aria-label="Toggle Dark Mode">🌙</button>
         <input type="text" id="listTitle" placeholder="Enter list title" value="List 1" maxlength="20">
         <div class="tabs">
-            <button class="tab" data-list="list1">List 1</button>
-            <button class="tab" data-list="list2">List 2</button>
-            <button class="tab" data-list="list3">List 3</button>
-            <button class="tab" data-list="list4">List 4</button>
-            <button class="tab" data-list="list5">List 5</button>
+            <!-- Tabs will be dynamically added -->
         </div>
         <div class="input-container">
             <input type="text" id="taskInput" placeholder="Enter a new task">
             <input type="text" id="dueTimeInput" placeholder="Select due time">
             <button id="addTaskBtn">Add Task</button>
+            <button id="undoBtn">Undo</button>
         </div>
         <div class="task-list-container">
             <ul id="taskList"></ul>
@@ -32,6 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Timepicker.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <!-- Sortable.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
